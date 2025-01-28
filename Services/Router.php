@@ -31,33 +31,6 @@ class Router
             $ctrl->index();
             
         }
-        elseif ($this->urlController == 'customers'){                  				                    
-            // Let's see if no action was passed or if index was passed, assume index
-            if(!isset($this->urlAction) || $this->urlAction == 'index'){
-                $ctrl = new \App\Controllers\CustomersController;
-                $ctrl->index();
-                // If passed add action
-                
-            }
-            elseif ($this->urlAction == 'add'){	
-                $ctrl = new \App\Controllers\CustomersController;
-                $ctrl->add();
-                // If passed edit action, delete or update		            
-                
-            }
-            elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	
-                $controller = new \App\Controllers\CustomersController;
-                $this->urlController = new $controller();				
-                $this->urlController->{$this->urlAction}(...$this->urlParams);
-                // If none of the above is passed, show the error to the user
-                
-            }
-            else{
-                $error = new \Services\ErrorController();
-                // Pass to the ErrorController, which will pass to the index view
-                $error->index();				
-            }
-        }
         elseif ($this->urlController == 'auth'){                  				                    
 
             if(!isset($this->urlAction) || $this->urlAction == 'login'){
@@ -89,13 +62,29 @@ class Router
                 $ctrl = new \App\Controllers\AuthController;
                 $ctrl->forgotPasswordSendLink();
             }
-            
-            
             elseif ($this->urlAction == 'logout'){	
                 $ctrl = new \App\Controllers\AuthController;
                 $ctrl->logout();
             }
-            
+            else{
+                $error = new \Services\ErrorController();
+                $error->index();				
+            }
+        }
+        elseif ($this->urlController == 'customers'){                  				                    
+            // Let's see if no action was passed or if index was passed, assume index
+            if(!isset($this->urlAction) || $this->urlAction == 'index'){
+                $ctrl = new \App\Controllers\CustomersController;
+                $ctrl->index();
+                // If passed add action
+                
+            }
+            elseif ($this->urlAction == 'add'){	
+                $ctrl = new \App\Controllers\CustomersController;
+                $ctrl->add();
+                // If passed edit action, delete or update		            
+                
+            }
             elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	
                 $controller = new \App\Controllers\CustomersController;
                 $this->urlController = new $controller();				
@@ -108,7 +97,31 @@ class Router
                 // Pass to the ErrorController, which will pass to the index view
                 $error->index();				
             }
-        }else{
+        }
+        elseif ($this->urlController == 'event'){ 
+                             				                    
+            if(!isset($this->urlAction) || $this->urlAction == 'list'){
+                $ctrl = new \App\Controllers\EventController;
+                $ctrl->list();
+            }
+            elseif ($this->urlAction == 'create'){	
+                $ctrl = new \App\Controllers\EventController;
+                $ctrl->create();
+            }
+            elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	
+                $controller = new \App\Controllers\CustomersController;
+                $this->urlController = new $controller();				
+                $this->urlController->{$this->urlAction}(...$this->urlParams);
+                // If none of the above is passed, show the error to the user
+                
+            }
+            else{
+                $error = new \Services\ErrorController();
+                // Pass to the ErrorController, which will pass to the index view
+                $error->index();				
+            }
+        }
+        else{
             $error = new \Services\ErrorController();
             $error->index();				
         }

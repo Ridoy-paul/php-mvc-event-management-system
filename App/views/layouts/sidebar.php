@@ -30,6 +30,15 @@
                     <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
                 </a>
             </li>
+            <li class="menu-item">
+                <a
+                    href="<?=Urls::authDashboard()?>"
+                    class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-smile"></i>
+                    <div class="text-truncate" data-i18n="Dashboard">User Lists</div>
+                </a>
+            </li>
+            
             <!-- Events -->
             <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -39,12 +48,12 @@
 
                 <ul class="menu-sub">
                     <li class="menu-item">
-                        <a href="layouts-without-menu.html" class="menu-link">
+                        <a href="<?=Urls::eventCreate()?>" class="menu-link">
                         <div class="text-truncate" data-i18n="Create Event">Create Event</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="layouts-without-navbar.html" class="menu-link">
+                        <a href="<?=Urls::eventList()?>" class="menu-link">
                         <div class="text-truncate" data-i18n="Event Lists">Event Lists</div>
                         </a>
                     </li>

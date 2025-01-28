@@ -9,7 +9,7 @@ class Urls {
         return BASE_URL;
     }
     
-    // Authentication Routes
+    // Auth Routes start -------
     public static function authLogin() {
         return BASE_URL . 'auth/login';
     }
@@ -42,6 +42,20 @@ class Urls {
     public static function authLogout() {
         return BASE_URL . 'auth/logout';
     }
+
+    //Auth route End ---------
+
+
+    // Event Route Start -------------
+    public static function eventList() {
+        return BASE_URL . 'event/list';
+    }
+
+    public static function eventCreate() {
+        return BASE_URL . 'event/create';
+    }
+
+    
 
     
 

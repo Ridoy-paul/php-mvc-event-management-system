@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row justify-content-center">
-            <div class="col-md-5 col-sm-12 mx-auto">
+            <div class="col-md-6 col-sm-12 mx-auto">
                 <div class="authentication-wrapper authentication-basic container-p-y">
                     <div class="authentication-inner">
                         <div class="card px-sm-6 px-0">
