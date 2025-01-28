@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 define('URL_PUBLIC_FOLDER', 'public'); // public
 define('URL_PROTOCOL', '//'); // //
@@ -15,4 +16,33 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_PORT', '3306');// 3306 or 5432
 define('DB_CHARSET', 'utf8mb4');
+
+
+// Check if user is logged in
+if (isset($_SESSION['user'])) {
+    define('USER_LOGGED', true);
+    define('USER_INFO', $_SESSION['user']);
+} else {
+    define('USER_LOGGED', false);
+    define('USER_INFO', null);
+}
+
+// Database connection setup for Eloquent ORM
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+$capsule = new Capsule;
+$capsule->addConnection([
+    'driver' => DB_TYPE,
+    'host' => DB_HOST,
+    'database' => DB_NAME,
+    'username' => DB_USER,
+    'password' => DB_PASS,
+    'charset' => DB_CHARSET,
+    'collation' => 'utf8mb4_unicode_ci',
+    'prefix' => '',
+]);
+
+// Set the Capsule instance as global
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
 

@@ -17,5 +17,8 @@
             "App\\" : "App/",
             "Services\\" : "Services/"
         }
+    },
+    "require": {
+        "illuminate/database": "^11.40"
     }
 }

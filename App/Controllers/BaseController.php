@@ -11,7 +11,6 @@ abstract class BaseController
         $title = $data['title'] ?? 'Event Management System';
 
         require_once APP . 'views/layouts/app.php';
-        // require_once APP . 'views/templates/menu.php';
         require_once APP . 'views/' . $viewPath . '.php';
         require_once APP . 'views/layouts/footer.php';
     }

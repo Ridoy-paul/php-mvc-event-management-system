@@ -14,6 +14,7 @@ define('Services', ROOT . 'Services' . DS);
 require_once ROOT . 'vendor/autoload.php';
 
 require_once Services . 'config.php'; // App Setting
+require_once Services . 'urls.php'; // For Get Urls
 
 use Services\Router;
 
