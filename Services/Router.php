@@ -81,6 +81,16 @@ class Router
                 $ctrl = new \App\Controllers\AuthController;
                 $ctrl->dashboard();
             }
+            elseif ($this->urlAction == 'forgot-password'){	
+                $ctrl = new \App\Controllers\AuthController;
+                $ctrl->forgotPassword();
+            }
+            elseif ($this->urlAction == 'forgot-password-send-link'){	
+                $ctrl = new \App\Controllers\AuthController;
+                $ctrl->forgotPasswordSendLink();
+            }
+            
+            
             elseif ($this->urlAction == 'logout'){	
                 $ctrl = new \App\Controllers\AuthController;
                 $ctrl->logout();

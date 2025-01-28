@@ -60,12 +60,12 @@ class AuthController extends BaseController {
         $user = $userModel->where('email', $email)->first();
     
         if (!$user) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email.']);
             return;
         }
     
         if (!password_verify($password, $user->password)) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
+            echo json_encode(['status' => 'error', 'message' => 'Invalid password.']);
             return;
         }
 
@@ -86,7 +86,7 @@ class AuthController extends BaseController {
     }
 
 
-    // Registration Store
+    //User Registration Data Store
     public function registrationStore(){
         if(USER_LOGGED){
             echo json_encode(['status' => 'error', 'message' => 'You are already logged in.']);
@@ -134,7 +134,7 @@ class AuthController extends BaseController {
         $user = new UserModel();
         $user->first_name = $data['first_name'];
         $user->last_name = $data['last_name'];
-        $user->email = $data['email'];
+        $user->email = trim($data['email']);
         $user->phone = $data['phone'];
         $user->password = password_hash($data['password'], PASSWORD_BCRYPT);
 
@@ -150,6 +150,29 @@ class AuthController extends BaseController {
         $title = "Dashboard";
         $this->render('dashboard/dashboard', ['title' => $title]);
     }
+
+    // Forgot Password
+    public function forgotPassword() {
+        if(USER_LOGGED){
+            header('Location: ' . Urls::authDashboard());
+            exit();
+        }
+
+        $title = "Forgot Password";
+        $this->render('front/auth/forgot-password', ['title' => $title]);
+    }
+
+    public function forgotPasswordSendLink() {
+        if(USER_LOGGED){
+            header('Location: ' . Urls::authDashboard());
+            exit();
+        }
+
+        $title = "Forgot Password";
+        $this->render('front/auth/forgot-password', ['title' => $title]);
+    }
+
+    
 
     public function logout() {
         session_destroy();

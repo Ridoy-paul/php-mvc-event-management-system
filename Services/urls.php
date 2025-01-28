@@ -30,6 +30,15 @@ class Urls {
         return BASE_URL . 'auth/dashboard';
     }
 
+    public static function authForgotPassword() {
+        return BASE_URL . 'auth/forgot-password';
+    }
+
+    public static function authForgotPasswordSendLink() {
+        return BASE_URL . 'auth/forgot-password-send-link';
+    }
+    
+
     public static function authLogout() {
         return BASE_URL . 'auth/logout';
     }

@@ -8,37 +8,26 @@
                             <div class="card-body">
                                 <div class="app-brand justify-content-center">
                                     <a href="<?=Urls::authLogin()?>" class="app-brand-link gap-2 mb-3">
-                                        <span class="app-brand-text demo text-heading fw-bold">Login</span>
+                                        <span class="app-brand-text demo text-heading fw-bold">Forgot Password?</span>
                                     </a>
                                 </div>
-                                <h4 class="mb-1">Welcome Back 👋</h4>
-                                <p class="mb-6">Please login to your account and start the adventure</p>
-
+                                <h4 class="mb-1">Reset Password</h4>
+                                <p class="mb-6">Enter your email address to reset your password</p>
                                 <form id="loginForm" class="mb-6" action="#">
                                     <div class="mb-6">
                                         <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" data-field-name="Email" autofocus="" required>
                                     </div>
-                                    <div class="mb-6 form-password-toggle">
-                                        <label class="form-label" for="password">Password<span class="text-danger">*</span></label>
+                                    <!-- <div class="mb-6 form-password-toggle">
+                                        <label class="form-label" for="password">Password</label>
                                         <div class="input-group input-group-merge">
                                             <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password" data-field-name="Password" required>
                                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                         </div>
-                                    </div>
-                                    <div class="mb-8">
-                                        <div class="d-flex justify-content-between mt-8">
-                                            <div class="form-check mb-0 ms-2">
-                                                <input class="form-check-input" type="checkbox" id="remember-me">
-                                                <label class="form-check-label" for="remember-me"> Remember Me </label>
-                                            </div>
-                                            <a href="<?=Urls::authForgotPassword()?>">
-                                                <span>Forgot Password?</span>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    </div> -->
+                                   
                                     <div class="mb-6">
-                                        <button class="btn btn-primary d-grid w-100" type="submit" id="submitForm">Login</button>
+                                        <button class="btn btn-success d-grid w-100" type="submit" id="submitForm">Send Link</button>
                                     </div>
                                 </form>
 
@@ -68,7 +57,7 @@
             
             if (!hasError) {
                 $.ajax({
-                    url: "<?= Urls::authLoginSubmit() ?>",
+                    url: "<?= Urls::authForgotPasswordSendLink() ?>",
                     type: "POST",
                     data: $("#loginForm").serialize(),
                     dataType: "json",
