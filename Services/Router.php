@@ -59,11 +59,14 @@ class Router
             }
         }
         elseif ($this->urlController == 'auth'){                  				                    
-            // Let's see if no action was passed or if index was passed, assume index
+
             if(!isset($this->urlAction) || $this->urlAction == 'login'){
                 $ctrl = new \App\Controllers\AuthController;
                 $ctrl->login();
-                
+            }
+            elseif ($this->urlAction == 'login-submit'){	
+                $ctrl = new \App\Controllers\AuthController;
+                $ctrl->loginSubmit();
             }
             elseif ($this->urlAction == 'register'){	
                 $ctrl = new \App\Controllers\AuthController;
@@ -77,6 +80,10 @@ class Router
             elseif ($this->urlAction == 'dashboard'){	
                 $ctrl = new \App\Controllers\AuthController;
                 $ctrl->dashboard();
+            }
+            elseif ($this->urlAction == 'logout'){	
+                $ctrl = new \App\Controllers\AuthController;
+                $ctrl->logout();
             }
             
             elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	

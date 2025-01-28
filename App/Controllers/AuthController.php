@@ -9,12 +9,78 @@ use Urls;
 
 class AuthController extends BaseController {
 
+    public static function storeSession($user) {
+        $_SESSION['user'] = [
+            'id' => $user->id,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'role' => $user->role ?? 'user',
+            'image' => $user->image ?? '',
+        ];
+    }
+
     public function login() {
+        if(USER_LOGGED){
+            header('Location: ' . Urls::authDashboard());
+            exit();
+        }
+
         $title = "Login";
         $this->render('front/auth/login', ['title' => $title]);
     }
 
+    public function loginSubmit() {
+        if (USER_LOGGED) {
+            echo json_encode(['status' => 'error', 'message' => 'You are already logged in.']);
+            return;
+        }
+    
+        header('Content-Type: application/json');
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request type.']);
+            return;
+        }
+    
+        $data = $_POST;
+        if (empty($data['email']) || empty($data['password'])) {
+            echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+            return;
+        }
+    
+        $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
+        $password = trim($data['password']);
+    
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email format.']);
+            return;
+        }
+    
+        $userModel = new UserModel();
+        $user = $userModel->where('email', $email)->first();
+    
+        if (!$user) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
+            return;
+        }
+    
+        if (!password_verify($password, $user->password)) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
+            return;
+        }
+
+        $this->storeSession($user);
+        echo json_encode(['status' => 'success', 'message' => 'Login successful!', 'redirect' => Urls::authDashboard()]);
+    }
+    
+
+    //Register
     public function register() {
+        if(USER_LOGGED){
+            header('Location: ' . Urls::authDashboard());
+            exit();
+        }
+
         $title = "Register";
         $this->render('front/auth/register', ['title' => $title]);
     }
@@ -22,6 +88,10 @@ class AuthController extends BaseController {
 
     // Registration Store
     public function registrationStore(){
+        if(USER_LOGGED){
+            echo json_encode(['status' => 'error', 'message' => 'You are already logged in.']);
+            return;
+        }
 
         header('Content-Type: application/json');
         if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
@@ -69,13 +139,7 @@ class AuthController extends BaseController {
         $user->password = password_hash($data['password'], PASSWORD_BCRYPT);
 
         if ($user->save()) {
-            $_SESSION['user'] = [
-                'id' => $user->id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'email' => $user->email,
-            ];
-
+            $this->storeSession($user);
             echo json_encode(['status' => 'success', 'message' => 'Registration successful!', 'redirect' => Urls::authDashboard()]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to register. Please try again.']);
@@ -85,6 +149,12 @@ class AuthController extends BaseController {
     public function dashboard() {
         $title = "Dashboard";
         $this->render('dashboard/dashboard', ['title' => $title]);
+    }
+
+    public function logout() {
+        session_destroy();
+        header('Location: ' . Urls::indexPage());
+        exit();
     }
 
 

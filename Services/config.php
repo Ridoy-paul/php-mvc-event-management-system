@@ -18,7 +18,7 @@ define('DB_PORT', '3306');// 3306 or 5432
 define('DB_CHARSET', 'utf8mb4');
 
 
-// Check if user is logged in
+// Define Auth Info
 if (isset($_SESSION['user'])) {
     define('USER_LOGGED', true);
     define('USER_INFO', $_SESSION['user']);

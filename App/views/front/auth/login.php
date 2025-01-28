@@ -14,15 +14,15 @@
                                 <h4 class="mb-1">Welcome Back 👋</h4>
                                 <p class="mb-6">Please login to your account and start the adventure</p>
 
-                                <form id="formAuthentication" class="mb-6" action="#">
+                                <form id="loginForm" class="mb-6" action="#">
                                     <div class="mb-6">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email-username" placeholder="Enter your email" autofocus="" required>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" data-field-name="Email" autofocus="" required>
                                     </div>
                                     <div class="mb-6 form-password-toggle">
                                         <label class="form-label" for="password">Password</label>
                                         <div class="input-group input-group-merge">
-                                            <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password" required>
+                                            <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password" data-field-name="Password" required>
                                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                         </div>
                                     </div>
@@ -56,3 +56,42 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#submitForm").click(function (e) {
+            e.preventDefault();
+
+            var hasError = validateForm("loginForm");
+            
+            if (!hasError) {
+                $.ajax({
+                    url: "<?= Urls::authLoginSubmit() ?>",
+                    type: "POST",
+                    data: $("#loginForm").serialize(),
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('#submitForm').prop('disabled', true).text('Processing......');
+                    },
+                    success: function (response) {
+                        if (response.status === "success") {
+                            successToast('Login successful!');
+                            window.location.href = response.redirect;
+                        } else {
+                            errorToast(response.message);
+                            $('#submitForm').prop('disabled', false).text('Login');
+                        }
+                    },
+                    error: function (xhr) {
+                        errorToast("Something went wrong. Please try again.");
+                        $('#submitForm').prop('disabled', false).text('Login');
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+
+</script>

@@ -20,7 +20,6 @@
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-      
             <!-- User -->
             <?php if(USER_LOGGED): ?>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -42,8 +41,8 @@
                             </div>
                             </div>
                             <div class="flex-grow-1">
-                                <h6 class="mb-0"><?=USER_INFO['first_name']?> </h6>
-                                <small class="text-muted">Admin</small>
+                                <h6 class="mb-0"><?=USER_INFO['first_name']?> <?=USER_INFO['last_name']?></h6>
+                                <small class="text-muted"><?=USER_INFO['role'] ?? 'User'?></small>
                             </div>
                         </div>
                         </a>
@@ -53,15 +52,14 @@
                     </li>
                     <li>
                         <a class="dropdown-item" href="#">
-                        <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
+                            <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
                         </a>
                     </li>
-                    
                     <li>
                         <div class="dropdown-divider my-1"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="javascript:void(0);">
+                        <a class="dropdown-item" href="<?=Urls::authLogout()?>">
                         <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
                         </a>
                     </li>
@@ -69,10 +67,10 @@
                 </li>
             <?php else: ?>
                 <li class="nav-item mx-2">
-                    <a class="nav-link" href="<?=Urls::authLogin()?>login">Login</a>
+                    <a class="nav-link border rounded px-2" href="<?=Urls::authLogin()?>">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=Urls::authRegister()?>register">Register</a>
+                    <a class="nav-link border rounded px-2" href="<?=Urls::authRegister()?>">Register</a>
                 </li>
             <?php endif; ?>
         </ul>

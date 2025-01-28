@@ -18,7 +18,7 @@
                                         <div class="col-md-6">
                                             <div class="mb-6">
                                                 <label for="first_name" class="form-label">First Name<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="first_name" name="first_name" data-field-name="First Name" required>
+                                                <input type="text" class="form-control" id="first_name" name="first_name" data-field-name="First Name" autofocus="" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
