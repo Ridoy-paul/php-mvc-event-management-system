@@ -10,7 +10,7 @@ use Urls;
 
 class AuthController extends BaseController {
 
-    public static function storeSession($user) {
+    public static function storeAuthSession($user) {
         $_SESSION['user'] = [
             'id' => $user->id,
             'first_name' => $user->first_name,
@@ -28,39 +28,39 @@ class AuthController extends BaseController {
     }
 
     public function loginSubmit() {
-        if (USER_LOGGED) {
+        if(USER_LOGGED) {
             return $this->jsonResponse('error', 'You are already logged in.');
         }
     
         header('Content-Type: application/json');
-        if (!$this->isAjaxRequest()) {
+        if(!$this->isAjaxRequest()) {
             return $this->jsonResponse('error', 'Invalid request type.');
         }
     
         $data = $_POST;
-        if (empty($data['email']) || empty($data['password'])) {
+        if(empty($data['email']) || empty($data['password'])) {
             return $this->jsonResponse('error', 'All fields are required.');
         }
     
         $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
         $password = trim($data['password']);
     
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $this->jsonResponse('error', 'Invalid email format.');
         }
     
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
     
-        if (!$user) {
+        if(!$user) {
             return $this->jsonResponse('error', 'Email not found.');
         }
     
-        if (!password_verify($password, $user->password)) {
+        if(!password_verify($password, $user->password)) {
             return $this->jsonResponse('error', 'Invalid Password.');
         }
 
-        $this->storeSession($user);
+        $this->storeAuthSession($user);
         return $this->jsonResponse('success', 'Login successful!', ['redirect' => Urls::authDashboard()]);
     }
     
@@ -118,7 +118,7 @@ class AuthController extends BaseController {
             $user->password = password_hash($data['password'], PASSWORD_BCRYPT);
     
             if ($user->save()) {
-                $this->storeSession($user);
+                $this->storeAuthSession($user);
                 return $this->jsonResponse('success', 'Registration successful!', ['redirect' => Urls::authDashboard()]);
             } 
             else {

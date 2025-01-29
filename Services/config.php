@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set("Asia/Dhaka");
 
 define('URL_PUBLIC_FOLDER', 'public'); // public
 define('URL_PROTOCOL', '//'); // //
@@ -16,6 +17,8 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_PORT', '3306');// 3306 or 5432
 define('DB_CHARSET', 'utf8mb4');
+
+
 
 
 // Define Auth Info

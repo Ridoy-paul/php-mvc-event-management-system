@@ -33,7 +33,7 @@
                                 </div>
 
                                 <div class="mb-6">
-                                    <button class="btn btn-primary d-grid w-100" id="submitForm" type="button">Save Event</button>
+                                    <button class="btn btn-success d-grid w-100" id="submitForm" type="button">Save Event</button>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                 $.ajax({
                     url: "<?=Urls::eventSave() ?>",
                     type: "POST",
-                    data: $("#eventForm").serialize(),
+                    data: new FormData($("#eventForm")[0]),
                     contentType: false,
                     cache: false,
                     processData:false,

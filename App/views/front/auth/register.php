@@ -113,7 +113,7 @@
                     error: function (xhr) {
                         errorToast("Something went wrong. Please try again.");
                         $('#submitForm').prop('disabled', false).text('Register');
-                        console.error(xhr.responseText);
+                        //console.error(xhr.responseText);
                     }
                 });
             }

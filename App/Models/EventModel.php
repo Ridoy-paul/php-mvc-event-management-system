@@ -24,9 +24,10 @@ class EventModel extends Model
     {
         try {
             $event_date_time = $request->event_date_time;
+            
             //check date is greater than current date
             if(strtotime($event_date_time) <= strtotime(date('Y-m-d H:i:s'))) {
-                throw new Exception('Event date should be greater than current date.');
+                throw new Exception('Event date should be greater than current date.'.$event_date_time);
             }
 
             if($request['code']) {
@@ -41,17 +42,18 @@ class EventModel extends Model
             $event->event_title = $request->event_title;
             $event->event_description = $request->event_description;
     
-            $event->thumbnail = !empty($thumbnail) ? FileController::storeFile($thumbnail) : '';
+            //$event->thumbnail = !empty($thumbnail) ? FileController::storeFile($thumbnail) : '';
     
             $event->event_date_time = $request->event_date_time;
             $event->max_capacity = $request->max_capacity;
             $event->is_active = $request->is_active;
             $event->guest_registration_status = $request->guest_registration_status;
             $event->save();
-            return $event->id;
+            return true;
 
         } catch(Exception $e) {
-            return $e->getMessage();
+            echo $e->getMessage();
+            return false;
         }
     }
 
