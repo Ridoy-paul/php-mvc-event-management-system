@@ -23,6 +23,12 @@ class EventModel extends Model
     public static function saveEventData($request, $thumbnail, $userInfo)
     {
         try {
+            $event_date_time = $request->event_date_time;
+            //check date is greater than current date
+            if(strtotime($event_date_time) <= strtotime(date('Y-m-d H:i:s'))) {
+                throw new Exception('Event date should be greater than current date.');
+            }
+
             if($request['code']) {
                 $event = EventModel::where('code', $request['code'])->first();
             }

@@ -35,8 +35,7 @@ class EventController extends BaseController {
             $data = $_POST;
             $thumbnail = $_FILES['thumbnail'] ?? null;
 
-            //print_r($thumbnail);
-            //echo $thumbnail;
+            print_r($thumbnail);
             //return;
 
             if (empty($data['event_title']) || empty($data['event_date_time']) || empty($data['max_capacity'])) {
@@ -46,7 +45,7 @@ class EventController extends BaseController {
             $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'first_name', 'last_name', 'email', 'role']);
 
             // Check for Edited Save
-            $event_code = $request['code'] ?? null;
+            $event_code = $data['code'] ?? null;
             if($event_code) {
                 $query = EventModel::where('code', $event_code);
                 if($userInfo->role == 'user') {
@@ -60,7 +59,7 @@ class EventController extends BaseController {
             echo json_encode(['status' => 'error', 'userInfo' => $userInfo]);
             return;
 
-            $eventQuery = EventModel::saveEventData($request, $thumbnail, $userInfo);
+            $eventQuery = EventModel::saveEventData($data, $thumbnail, $userInfo);
             
         } catch (Exception $e) {
             return $this->jsonResponse('error', $e->getMessage());

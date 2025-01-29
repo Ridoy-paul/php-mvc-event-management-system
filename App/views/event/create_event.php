@@ -103,9 +103,9 @@
                     url: "<?=Urls::eventSave() ?>",
                     type: "POST",
                     data: $("#eventForm").serialize(),
-                    cache:false,
                     contentType: false,
-                    processData: false,
+                    cache: false,
+                    processData:false,
                     beforeSend: function() {
                         $('#submitForm').prop('disabled', true).text('Processing......');
                     },

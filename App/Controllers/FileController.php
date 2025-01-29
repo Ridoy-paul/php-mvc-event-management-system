@@ -22,6 +22,14 @@ class FileController {
 
     public static function storeFile($file): ?string {
         $uploadDir = 'public/uploads/';
+        $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'pdf' , 'webp');
+
+        $img = $_FILES['image']['name'];
+        $tmp = $_FILES['image']['tmp_name'];
+        // get uploaded file's extension
+        $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
+        // can upload same image using rand function
+        $final_image = rand(1000,1000000).$img;
 
         if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
             $fileName = basename($file['name']);
