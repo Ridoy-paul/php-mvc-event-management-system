@@ -30,6 +30,8 @@
                     <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
                 </a>
             </li>
+
+            <?php if(USER_INFO['role'] ?? 'user' == 'admin'):?>
             <li class="menu-item">
                 <a
                     href="<?=Urls::authDashboard()?>"
@@ -38,6 +40,7 @@
                     <div class="text-truncate" data-i18n="Dashboard">User Lists</div>
                 </a>
             </li>
+            <?php endif;?>
             
             <!-- Events -->
             <li class="menu-item">

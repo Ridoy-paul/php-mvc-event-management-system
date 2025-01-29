@@ -22,82 +22,65 @@ class AuthController extends BaseController {
     }
 
     public function login() {
-        if(USER_LOGGED){
-            header('Location: ' . Urls::authDashboard());
-            exit();
-        }
-
+        $this->confirmNotLoggedIn();
         $title = "Login";
         $this->render('front/auth/login', ['title' => $title]);
     }
 
     public function loginSubmit() {
         if (USER_LOGGED) {
-            echo json_encode(['status' => 'error', 'message' => 'You are already logged in.']);
-            return;
+            return $this->jsonResponse('error', 'You are already logged in.');
         }
     
         header('Content-Type: application/json');
-        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid request type.']);
-            return;
+        if (!$this->isAjaxRequest()) {
+            return $this->jsonResponse('error', 'Invalid request type.');
         }
     
         $data = $_POST;
         if (empty($data['email']) || empty($data['password'])) {
-            echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
-            return;
+            return $this->jsonResponse('error', 'All fields are required.');
         }
     
         $email = filter_var(trim($data['email']), FILTER_SANITIZE_EMAIL);
         $password = trim($data['password']);
     
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid email format.']);
-            return;
+            return $this->jsonResponse('error', 'Invalid email format.');
         }
     
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
     
         if (!$user) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid email.']);
-            return;
+            return $this->jsonResponse('error', 'Email not found.');
         }
     
         if (!password_verify($password, $user->password)) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid password.']);
-            return;
+            return $this->jsonResponse('error', 'Invalid Password.');
         }
 
         $this->storeSession($user);
-        echo json_encode(['status' => 'success', 'message' => 'Login successful!', 'redirect' => Urls::authDashboard()]);
+        return $this->jsonResponse('success', 'Login successful!', ['redirect' => Urls::authDashboard()]);
     }
     
 
     //Register
     public function register() {
-        if(USER_LOGGED){
-            header('Location: ' . Urls::authDashboard());
-            exit();
-        }
-
+        $this->confirmNotLoggedIn();
         $title = "Register";
         $this->render('front/auth/register', ['title' => $title]);
     }
 
-
     //User Registration Data Store
     public function registrationStore() {
         if (USER_LOGGED) {
-            echo json_encode(['status' => 'error', 'message' => 'You are already logged in.']);
-            return;
+            return $this->jsonResponse('error', 'You are already logged in.');
         }
     
         header('Content-Type: application/json');
-        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid request type.']);
-            return;
+        if (!$this->isAjaxRequest()) {
+            return $this->jsonResponse('error', 'Invalid request type.');
         }
     
         try {
@@ -136,58 +119,42 @@ class AuthController extends BaseController {
     
             if ($user->save()) {
                 $this->storeSession($user);
-                echo json_encode(['status' => 'success', 'message' => 'Registration successful!', 'redirect' => Urls::authDashboard()]);
-            } else {
+                return $this->jsonResponse('success', 'Registration successful!', ['redirect' => Urls::authDashboard()]);
+            } 
+            else {
                 throw new Exception('Failed to register. Please try again.');
             }
-        } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        } catch (Throwable $t) {
-            echo json_encode(['status' => 'error', 'message' => 'An unexpected error occurred. Please try again later.']);
+        } 
+        catch (Exception $e) {
+            return $this->jsonResponse('error', $e->getMessage());
         }
     }
 
     // Forgot Password
     public function forgotPassword() {
-        if(USER_LOGGED){
-            header('Location: ' . Urls::authDashboard());
-            exit();
-        }
-
+        $this->confirmNotLoggedIn();
         $title = "Forgot Password";
         $this->render('front/auth/forgot-password', ['title' => $title]);
     }
 
     public function forgotPasswordSendLink() {
-        if(USER_LOGGED){
-            header('Location: ' . Urls::authDashboard());
-            exit();
-        }
-
+        $this->confirmNotLoggedIn();
         $title = "Forgot Password";
         $this->render('front/auth/forgot-password', ['title' => $title]);
     }
 
     public function dashboard() {
-        if(!USER_LOGGED){
-            header('Location: ' . Urls::authLogin());
-            exit();
-        }
+        $this->confirmLoggedIn();
         $title = "Dashboard";
         $this->render('dashboard/dashboard', ['title' => $title]);
     }
 
-    
-
     public function logout() {
+        $this->confirmLoggedIn();
         session_destroy();
         header('Location: ' . Urls::indexPage());
         exit();
     }
-
-
-
-    
 
 }
 

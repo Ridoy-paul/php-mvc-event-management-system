@@ -108,6 +108,11 @@ class Router
                 $ctrl = new \App\Controllers\EventController;
                 $ctrl->create();
             }
+            elseif ($this->urlAction == 'save'){	
+                $ctrl = new \App\Controllers\EventController;
+                $ctrl->eventSave();
+            }
+            
             elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	
                 $controller = new \App\Controllers\CustomersController;
                 $this->urlController = new $controller();				
