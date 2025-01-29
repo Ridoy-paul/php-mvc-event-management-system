@@ -26,7 +26,7 @@ class EventController extends BaseController {
     public function eventSave() {
         $this->confirmLoggedIn();
       
-        header('Content-Type: application/json');
+        //header('Content-Type: application/json');
         if (!$this->isAjaxRequest()) {
             return $this->jsonResponse('error', 'Invalid request type.');
         }
@@ -35,8 +35,9 @@ class EventController extends BaseController {
             $data = $_POST;
             $thumbnail = $_FILES['thumbnail'] ?? null;
 
-            print_r($thumbnail);
-            return;
+            //print_r($thumbnail);
+            //echo $thumbnail;
+            //return;
 
             if (empty($data['event_title']) || empty($data['event_date_time']) || empty($data['max_capacity'])) {
                 throw new Exception('Please fill required fields.');
