@@ -12,13 +12,21 @@ class EventModel extends Model
     public $timestamps = false;
     protected $fillable = ['code', 'user_id', 'event_title', 'event_description', 'thumbnail', 'event_date_time', 'max_capacity', 'is_active', 'guest_registration_status', 'is_delete', 'created_at', 'updated_at'];
 
-    private static function generateCode():int {
-        $code = rand(10000000, 9999999);
-        if(EventModel::where('code', $code)->first(['id'])) {
-            self::generateCode();
+    private static function generateCode(): string {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $code = '';
+        
+        for ($i = 0; $i < 5; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
         }
+    
+        if (EventModel::where('code', $code)->first()) {
+            return self::generateCode();
+        }
+    
         return $code;
     }
+    
 
     public static function saveEventData($request, $files, $userInfo)
     {
