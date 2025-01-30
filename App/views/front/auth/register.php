@@ -12,7 +12,6 @@
                                     </a>
                                 </div>
                                 <p class="mb-6">Register your account and start the adventure</p>
-
                                 <form id="registerForm" class="mb-6" action="<?= Urls::authRegisterStore() ?>" method="POST">
                                     <div class="row">
                                         <div class="col-md-6">

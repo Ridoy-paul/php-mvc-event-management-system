@@ -11,9 +11,7 @@
                                         <span class="app-brand-text demo text-heading fw-bold">Login</span>
                                     </a>
                                 </div>
-                                <h4 class="mb-1">Welcome Back 👋</h4>
                                 <p class="mb-6">Please login to your account and start the adventure</p>
-
                                 <form id="loginForm" class="mb-6" action="#">
                                     <div class="mb-6">
                                         <label for="email" class="form-label">Email<span class="text-danger">*</span></label>

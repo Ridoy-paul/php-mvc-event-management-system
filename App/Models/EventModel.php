@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use App\Controllers\FileController;
 
 class EventModel extends Model
 {
@@ -35,9 +34,6 @@ class EventModel extends Model
             $userInfo = json_decode($userInfo, true);
             $event_date_time = $request->event_date_time;
 
-            //print_r($request);
-            //return;
-
             //check date is greater than current date
             if (strtotime($event_date_time) <= strtotime(date('Y-m-d H:i:s'))) {
                 throw new Exception('Event date should be greater than current date.');
@@ -53,17 +49,6 @@ class EventModel extends Model
 
             $event->event_title = $request->event_title;
             $event->event_description = $request->event_description;
-
-            //For Store Thumbnail
-            if(isset($files['thumbnail']) && $files['thumbnail']['name']) {
-                $thumbnailStoreStatus = FileController::storeFile($files['thumbnail']);
-                if($thumbnailStoreStatus['status'] == 0) {
-                    throw new Exception($thumbnailStoreStatus['message']);
-                } else {
-                    $event->thumbnail = $thumbnailStoreStatus['file_name'];
-                }
-            }
-
             $event->event_date_time = $request->event_date_time;
             $event->max_capacity = $request->max_capacity;
             $event->is_active = $request->is_active;

@@ -112,17 +112,13 @@ class Router
                 $ctrl = new \App\Controllers\EventController;
                 $ctrl->eventSave();
             }
-            
-            elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	
-                $controller = new \App\Controllers\CustomersController;
+            elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete'){	
+                $controller = new \App\Controllers\EventController;
                 $this->urlController = new $controller();				
                 $this->urlController->{$this->urlAction}(...$this->urlParams);
-                // If none of the above is passed, show the error to the user
-                
             }
             else{
                 $error = new \Services\ErrorController();
-                // Pass to the ErrorController, which will pass to the index view
                 $error->index();				
             }
         }

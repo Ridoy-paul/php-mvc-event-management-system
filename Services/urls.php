@@ -54,9 +54,13 @@ class Urls {
     public static function eventCreate() {
         return BASE_URL . 'event/create';
     }
+    public static function eventEdit($id) {
+        return BASE_URL . 'event/edit/' . urlencode($id);
+    }
     public static function eventSave() {
         return BASE_URL . 'event/save';
     }
+
 
     
 
