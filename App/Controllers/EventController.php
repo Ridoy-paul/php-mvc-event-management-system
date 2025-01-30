@@ -13,7 +13,8 @@ class EventController extends BaseController {
     public function list() {
         $this->confirmLoggedIn();
         $title = "Event List";
-        $this->render('event/event_list', ['title' => $title]);
+        $eventList = EventModel::get(['id', 'code']);
+        $this->render('event/event_list', ['title' => $title, 'eventList' => $eventList]);
     }
 
     public function create() {
