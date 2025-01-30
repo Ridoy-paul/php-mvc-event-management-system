@@ -2,8 +2,10 @@
 declare(strict_types=1);
 
 namespace App\Controllers;
+use Exception;
+use Urls;
 
-class FileController {
+class FileController  {
 
     public static function getUploadErrorMessage(int $errorCode): string {
         switch ($errorCode) {
@@ -20,32 +22,59 @@ class FileController {
         }
     }
 
-    public static function storeFile($file): ?string {
-        $uploadDir = 'public/uploads/';
-        $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'pdf' , 'webp');
-
-        $img = $_FILES['image']['name'];
-        $tmp = $_FILES['image']['tmp_name'];
-        // get uploaded file's extension
-        $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-        // can upload same image using rand function
-        $final_image = rand(1000,1000000).$img;
-
-        if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
-            $fileName = basename($file['name']);
-            $targetPath = $uploadDir . $fileName;
-
-            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-                return $fileName;
-            } else {
-                echo "Error: Could not move the uploaded file.";
-                return null;
+    public static function storeFile($file) {
+        try {
+            $uploadDir = 'uploads/';
+            $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'webp');
+    
+            if (!file_exists($uploadDir)) {
+                if (!mkdir($uploadDir, 777, true)) {
+                    throw new Exception("Error: Unable to create upload directory.");
+                }
             }
-        } else {
-            echo "Error: " . self::getUploadErrorMessage($file['error']);
-            return null;
+    
+            if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
+                throw new Exception("Error: " . self::getUploadErrorMessage($file['error']));
+            }
+            
+            $img = $file['name'];
+            $tmp = $file['tmp_name'];
+            $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
+    
+            if (!in_array($ext, $valid_extensions)) {
+                throw new Exception("Error: Invalid file type.");
+            }
+    
+            $maxFileSize = 10 * 1024 * 1024; // 10MB limit
+            if ($file['size'] > $maxFileSize) {
+                throw new Exception("Error: File is too large. Max size is 10MB.");
+            }
+    
+            $final_image = rand(11111111, 99999999) . '.' . $ext;
+            $targetPath = $uploadDir . $final_image;
+    
+            if (!is_writable($uploadDir)) {
+                throw new Exception("Error: Upload directory is not writable.");
+            }
+    
+            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                return [
+                    'status' => 1,
+                    'file_name' => $final_image,
+                ];
+            }
+            else {
+                throw new Exception("Error: Could not move the uploaded file.");
+            }
+    
+        } catch (Exception $e) {
+            return [
+                'status' => 0,
+                'message' => $e->getMessage(),
+            ];
         }
     }
+    
     
 
 }

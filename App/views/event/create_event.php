@@ -1,6 +1,12 @@
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
+<style>
+    .ck-editor__editable {
+        min-height: 250px;
+    }
+</style>
+
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
     <form id="eventForm" class="mb-6" action="<?= Urls::eventSave() ?>" method="POST" enctype="multipart/form-data">
@@ -74,7 +80,7 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="thumbnail" class="form-label">Thumbnail [jpg, jpeg, png, webp]</label>
+                                    <label for="thumbnail" class="form-label">Thumbnail [jpg, jpeg, png, webp] Max. 10MB</label>
                                     <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.webp">
                                 </div>
                             </div>
@@ -96,6 +102,8 @@
         $("#submitForm").click(function (e) {
             e.preventDefault();
 
+            $("#event_description").val($(".ck-editor__editable").html());
+
             var hasError = validateForm("eventForm");
             
             if (!hasError) {
@@ -110,8 +118,9 @@
                         $('#submitForm').prop('disabled', true).text('Processing......');
                     },
                     success: function (response) {
-                        //console.log(response.message);
-                        if (response.status === "success") {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        if (response.status == "success") {
                             successToast('Event Saved.');
                             window.location.href = response.redirect;
                         } else {

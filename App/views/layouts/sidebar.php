@@ -1,5 +1,5 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-    <div class="app-brand demo">
+    <div class="app-brand demo border-bottom">
     <a href="<?=URL?>" class="app-brand-link">
         <span class="app-brand-text demo menu-text fw-bold ms-2">Test</span>
     </a>
@@ -31,7 +31,7 @@
                 </a>
             </li>
 
-            <?php if(USER_INFO['role'] ?? 'user' == 'admin'):?>
+            <?php if((USER_INFO['role'] ?? 'user') == 'admin'):?>
             <li class="menu-item">
                 <a
                     href="<?=Urls::authDashboard()?>"

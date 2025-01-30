@@ -32,13 +32,10 @@ class EventController extends BaseController {
 
         try {
             $data = $_POST;
-            $thumbnail = $_FILES['thumbnail'] ?? null;
-
-            //print_r($data);
-            //return;
+            $files = $_FILES;
 
             if (empty($data['event_title']) || empty($data['event_date_time']) || empty($data['max_capacity'])) {
-                throw new Exception('Please fill required fields.');
+                throw new Exception('Please fill Event title, Date, max capacity input.');
             }
 
             $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'first_name', 'last_name', 'email', 'role']);
@@ -55,12 +52,14 @@ class EventController extends BaseController {
                 }
             }
 
-            //echo json_encode(['status' => 'error', 'userInfo' => $userInfo]);
-            //return;
-            $eventQuery = EventModel::saveEventData($data, $thumbnail, $userInfo);
+            $eventSave = EventModel::saveEventData(json_encode($data), $files, json_encode($userInfo));
+
+            if($eventSave['status'] == 0) {
+                throw new Exception($eventSave['message']);
+            }
             
-            return $this->jsonResponse('error', $eventQuery);
-            
+            return $this->jsonResponse('success', 'Event saved successfully.', ['redirect' => Urls::eventList()]);
+           
         } catch (Exception $e) {
             return $this->jsonResponse('error', $e->getMessage());
         }
