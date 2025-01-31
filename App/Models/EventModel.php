@@ -11,6 +11,8 @@ class EventModel extends Model
     public $timestamps = false;
     protected $fillable = ['code', 'user_id', 'event_title', 'event_description', 'thumbnail', 'event_date_time', 'max_capacity', 'is_active', 'guest_registration_status', 'is_delete', 'created_at', 'updated_at'];
 
+    // ONSTRAINT fk_events_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+
     private static function generateCode(): string {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $code = '';
@@ -27,7 +29,7 @@ class EventModel extends Model
     }
     
 
-    public static function saveEventData($request, $files, $userInfo)
+    public static function saveEventData($request, $userInfo)
     {
         try {
             $request = json_decode($request);

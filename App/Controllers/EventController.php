@@ -18,10 +18,10 @@ class EventController extends BaseController {
             ->first(['id', 'first_name', 'last_name', 'email', 'role']);
     
         $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-        $perPage = 2;
+        $perPage = 10;
         $offset = ($page - 1) * $perPage;
     
-        $eventQuery = EventModel::orderBy('id', 'DESC');
+        $eventQuery = EventModel::orderBy('id', 'DESC')->where('is_delete', 0);
     
         if ($userInfo->role == 'user') {
             $eventQuery->where('user_id', $userInfo->id);
@@ -87,7 +87,6 @@ class EventController extends BaseController {
 
         try {
             $data = $_POST;
-            $files = $_FILES;
 
             if (empty($data['event_title']) || empty($data['event_date_time']) || empty($data['max_capacity'])) {
                 throw new Exception('Please fill Event title, Date, max capacity input.');
@@ -107,7 +106,7 @@ class EventController extends BaseController {
                 }
             }
 
-            $eventSave = EventModel::saveEventData(json_encode($data), $files, json_encode($userInfo));
+            $eventSave = EventModel::saveEventData(json_encode($data), json_encode($userInfo));
 
             if($eventSave['status'] == 0) {
                 throw new Exception($eventSave['message']);
@@ -118,6 +117,30 @@ class EventController extends BaseController {
         } catch (Exception $e) {
             return $this->jsonResponse('error', $e->getMessage());
         }
+    }
+
+    public function delete($code) {
+        $this->confirmLoggedIn();
+        $title = "Delete Event";
+
+        $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'role']);
+        
+        $query = EventModel::where('code', $code);
+        if($userInfo->role == 'user') {
+            $query->where('user_id', $userInfo->id);
+        }
+        $eventData = $query->first();
+
+        if($eventData === null) {
+            return $this->redirect(Urls::eventList());
+        }
+
+        $eventData->is_delete = 1;
+        $eventData->save();
+
+        $this->sessionMessage('success', 'Event delete successfully.');
+        return $this->redirect(Urls::eventList());
+
     }
 
     

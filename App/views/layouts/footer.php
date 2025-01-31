@@ -3,6 +3,7 @@
         </div>
       </div>
       <div class="layout-overlay layout-menu-toggle"></div>
+      
     </div>
 
     <script src="<?=URL?>public/assets/vendor/libs/jquery/jquery.js"></script>
@@ -14,6 +15,7 @@
     <script src="<?=URL?>public/assets/js/main.js"></script>
     <script src="<?=URL?>public/assets/js/dashboards-analytics.js"></script>
     <script src="<?=URL?>public/assets/js/toastify-js.js"></script>
+    <script src="<?=URL?>public/assets/js/custom.js"></script>
 
     <audio id="error_sound" src="<?=URL?>public/assets/audio/error.mp3" preload="auto"></audio>
     <audio id="success_sound" src="<?=URL?>public/assets/audio/success.mp3" preload="auto"></audio>
@@ -81,6 +83,24 @@
           return emailPattern.test(email);
       }
 
+      window.onload = function() {
+        <?php if(!empty($_SESSION['message'])): ?>
+            var message = "<?php echo $_SESSION['message']; ?>";
+            var status = "<?php echo $_SESSION['status']; ?>";
+            
+            if(status === "success") {
+                successToast(message);
+            } 
+            else{
+                errorToast(message);
+            }
+
+            <?php 
+                unset($_SESSION['message']);
+                unset($_SESSION['status']);
+            ?>
+        <?php endif; ?>
+    };
 
     </script>
 

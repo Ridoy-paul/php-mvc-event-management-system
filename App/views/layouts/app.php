@@ -23,6 +23,7 @@
     
     <script src="<?=URL?>public/assets/vendor/js/helpers.js"></script>
     <script src="<?=URL?>public/assets/js/config.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
   <body>

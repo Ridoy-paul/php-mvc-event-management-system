@@ -6,13 +6,12 @@
                     <h4 class="mb-0">Event List</h4>
                     <a href="<?=Urls::eventCreate()?>" class="btn btn-info">Create Event</a>
                 </div>
-                
 
                 <table class="table table-bordered">
                     <thead class="bg-dark text-light">
                         <tr>
                             <th>Code</th>
-                            <th>Title</th>
+                            <th width="30%">Title</th>
 
                             <?php if ($userInfo->role == 'admin'): ?>
                                 <th>User & Event Date-Time</th>
@@ -26,12 +25,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($eventList as $event): ?>
+                        <?php foreach($eventList as $event): ?>
                         <tr>
                             <td><?= htmlspecialchars($event->code) ?></td>
                             <td><?= htmlspecialchars($event->event_title) ?></td>
 
-                            <?php if ($userInfo->role == 'admin'): ?>
+                            <?php if($userInfo->role == 'admin'): ?>
                                 <td>
                                     <?= htmlspecialchars($event->first_name . ' ' . $event->last_name) ?><br>
                                     <?= date('d M Y, h:i A', strtotime($event->event_date_time)) ?>
@@ -54,28 +53,27 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <?php 
-                        // Preserve other query parameters
-                        $queryParams = $_GET;
-                        
-                        if ($page > 1): 
-                            $queryParams['page'] = $page - 1;
-                        ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?<?= http_build_query($queryParams) ?>">Previous</a>
-                            </li>
-                        <?php endif; ?>
+                            $queryParams = $_GET;
+                            
+                            if ($page > 1): 
+                                $queryParams['page'] = $page - 1;
+                            ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?<?= http_build_query($queryParams) ?>">Previous</a>
+                                </li>
+                            <?php endif; ?>
 
-                        <?php for ($i = 1; $i <= $totalPages; $i++): 
-                            $queryParams['page'] = $i;
-                        ?>
-                            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                                <a class="page-link" href="?<?= http_build_query($queryParams) ?>"><?= $i ?></a>
-                            </li>
-                        <?php endfor; ?>
+                            <?php for ($i = 1; $i <= $totalPages; $i++): 
+                                $queryParams['page'] = $i;
+                            ?>
+                                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                                    <a class="page-link" href="?<?= http_build_query($queryParams) ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
 
-                        <?php if ($page < $totalPages): 
-                            $queryParams['page'] = $page + 1;
-                        ?>
+                            <?php if ($page < $totalPages): 
+                                $queryParams['page'] = $page + 1;
+                            ?>
                             <li class="page-item">
                                 <a class="page-link" href="?<?= http_build_query($queryParams) ?>">Next</a>
                             </li>
@@ -87,21 +85,25 @@
     </div>
 </div>
 
+<style>
+    th {
+        color: #ffffff !important;
+    }
+</style>
+
 <script src="<?=URL?>public/assets/js/sweetalert.min.js"></script>
 <script>
     function onDeleteEvent(code) {
         swal({
                 title: "Are you want to delete?",
-                text: "Once deleted, you will not be able to recover!",
+                text: "Once deleted, you will not be able to restore!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
             .then((willDelete) => {
                 if (willDelete) {
-                    // $('#cart_tr_' + code).remove();
-                    // calculateSum();
-                    // multiply();
+                    window.location.href = "<?=Urls::eventDelete()?>/" + code;
                 }
             });
     }

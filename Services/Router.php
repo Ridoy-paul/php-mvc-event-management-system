@@ -3,7 +3,6 @@ namespace Services;
 
 class Router
 {
-    // Properties relatives to url
     private $urlController = null;
     private $urlAction = null;
     private $urlParams = array();
@@ -12,7 +11,7 @@ class Router
     public function __construct(){
         
         // Verify if url isset
-        if (isset($_GET['url'])) {
+        if(isset($_GET['url'])) {
             // Split URL in parts
             $url = trim($_GET['url'], '/'); 
             $url = filter_var($url, FILTER_SANITIZE_URL); // Filter the url from characters foreign to a url
@@ -31,7 +30,7 @@ class Router
             $ctrl->index();
             
         }
-        elseif ($this->urlController == 'auth'){                  				                    
+        elseif($this->urlController == 'auth'){                  				                    
 
             if(!isset($this->urlAction) || $this->urlAction == 'login'){
                 $ctrl = new \App\Controllers\AuthController;
@@ -71,7 +70,7 @@ class Router
                 $error->index();				
             }
         }
-        elseif ($this->urlController == 'customers'){                  				                    
+        elseif($this->urlController == 'customers'){                  				                    
             // Let's see if no action was passed or if index was passed, assume index
             if(!isset($this->urlAction) || $this->urlAction == 'index'){
                 $ctrl = new \App\Controllers\CustomersController;
@@ -98,7 +97,7 @@ class Router
                 $error->index();				
             }
         }
-        elseif ($this->urlController == 'event'){ 
+        elseif($this->urlController == 'event'){
                              				                    
             if(!isset($this->urlAction) || $this->urlAction == 'list'){
                 $ctrl = new \App\Controllers\EventController;
@@ -116,6 +115,17 @@ class Router
                 $controller = new \App\Controllers\EventController;
                 $this->urlController = new $controller();				
                 $this->urlController->{$this->urlAction}(...$this->urlParams);
+            }
+            else{
+                $error = new \Services\ErrorController();
+                $error->index();				
+            }
+        }
+        elseif($this->urlController == 'event-registration'){
+
+            if(!isset($this->urlAction) || $this->urlAction == 'store'){
+                $ctrl = new \App\Controllers\EventRegistrationController;
+                $ctrl->eventRegistrationStore();
             }
             else{
                 $error = new \Services\ErrorController();

@@ -38,11 +38,9 @@ class Urls {
         return BASE_URL . 'auth/forgot-password-send-link';
     }
     
-
     public static function authLogout() {
         return BASE_URL . 'auth/logout';
     }
-
     //Auth route End ---------
 
 
@@ -54,13 +52,23 @@ class Urls {
     public static function eventCreate() {
         return BASE_URL . 'event/create';
     }
-    public static function eventEdit($id) {
-        return BASE_URL . 'event/edit/' . urlencode($id);
+    public static function eventEdit($code) {
+        return BASE_URL . 'event/edit/' . urlencode($code);
     }
     public static function eventSave() {
         return BASE_URL . 'event/save';
     }
 
+    public static function eventDelete($code = '') {
+        return BASE_URL . 'event/delete/' . urlencode($code);
+    }
+    // Event Route End -------------
+
+
+    // Event Registration Route Start -------------
+    public static function eventRegistrationStore() {
+        return BASE_URL . 'event-registration/store';
+    }
 
     
 

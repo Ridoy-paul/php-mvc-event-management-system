@@ -63,7 +63,7 @@
 
                                 <div class="mb-6">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" <?php echo ($data['is_active'] ?? '') == 1 ? 'checked' : '';?> type="radio" name="is_active" id="active" value="1">
+                                        <input class="form-check-input" <?php echo ($data['is_active'] ?? 1) == 1 ? 'checked' : '';?> type="radio" name="is_active" id="active" value="1">
                                         <label class="form-check-label" for="active">Active</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -74,7 +74,7 @@
                                 <div class="mb-6">
                                     <label for="guest_registration_status" class="form-label">Guest Registration Status<span class="text-danger">*</span></label>
                                     <select name="guest_registration_status" class="form-select" aria-label="guest_registration_status">
-                                        <option <?php echo ($data['is_active'] ?? '') == 1 ? 'selected' : '';?> value="1">Yes</option>
+                                        <option <?php echo ($data['is_active'] ?? 1) == 1 ? 'selected' : '';?> value="1">Yes</option>
                                         <option <?php echo ($data['is_active'] ?? '') == 0 ? 'selected' : '';?> value="0">No</option>
                                     </select>
                                 </div>
@@ -88,7 +88,6 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
 <script>

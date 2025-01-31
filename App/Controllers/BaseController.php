@@ -15,6 +15,12 @@ abstract class BaseController {
         require_once APP . 'views/layouts/footer.php';
     }
 
+    protected function sessionMessage($status, $message): void
+    {
+        $_SESSION['status'] = $status;
+        $_SESSION['message'] = $message;
+    }
+
     protected function redirect(string $url): void
     {
         header('Location: ' . $url);
