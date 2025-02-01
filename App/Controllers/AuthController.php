@@ -112,10 +112,10 @@ class AuthController extends BaseController {
             }
     
             $user = new UserModel();
-            $user->first_name = $data['first_name'];
-            $user->last_name = $data['last_name'];
+            $user->first_name = htmlspecialchars($data['first_name']);
+            $user->last_name = htmlspecialchars($data['last_name']);
             $user->email = trim($data['email']);
-            $user->phone = $data['phone'];
+            $user->phone = htmlspecialchars($data['phone']);
             $user->role = 'user';
             $user->password = password_hash($data['password'], PASSWORD_BCRYPT);
     

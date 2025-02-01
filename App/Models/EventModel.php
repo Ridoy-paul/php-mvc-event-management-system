@@ -49,7 +49,7 @@ class EventModel extends Model
                 $event->user_id = $userInfo['id'];
             }
 
-            $event->event_title = $request->event_title;
+            $event->event_title = htmlspecialchars($request->event_title);
             $event->event_description = $request->event_description;
             $event->event_date_time = $request->event_date_time;
             $event->max_capacity = $request->max_capacity;
