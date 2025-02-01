@@ -33,15 +33,15 @@ class ReportController extends BaseController {
         $orderByColumn = $columns[$orderColumnIndex] ?? 'event_attendees.id';
     
         $query = EventAttendeeModel::join('events', 'events.code', '=', 'event_attendees.event_code')
-            ->select([
-                'event_attendees.id',
-                'event_attendees.registration_date',
-                'event_attendees.full_name',
-                'event_attendees.email',
-                'event_attendees.phone_number',
-                'events.code as event_code',
-                'events.event_title',
-            ]);
+                ->select([
+                    'event_attendees.id',
+                    'event_attendees.registration_date',
+                    'event_attendees.full_name',
+                    'event_attendees.email',
+                    'event_attendees.phone_number',
+                    'events.code as event_code',
+                    'events.event_title',
+                ])->orderBy('event_attendees.id', 'DESC');
     
         // Check User is admin or user. if admin then can see all to list, if user then can see only his / her events attendee lists.
         $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'role']);
