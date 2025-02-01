@@ -68,33 +68,6 @@ class Router
                 $error->index();				
             }
         }
-        elseif($this->urlController == 'customers'){                  				                    
-            // Let's see if no action was passed or if index was passed, assume index
-            if(!isset($this->urlAction) || $this->urlAction == 'index'){
-                $ctrl = new \App\Controllers\CustomersController;
-                $ctrl->index();
-                // If passed add action
-                
-            }
-            elseif ($this->urlAction == 'add'){	
-                $ctrl = new \App\Controllers\CustomersController;
-                $ctrl->add();
-                // If passed edit action, delete or update		            
-                
-            }
-            elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete' || $this->urlAction == 'update'){	
-                $controller = new \App\Controllers\CustomersController;
-                $this->urlController = new $controller();				
-                $this->urlController->{$this->urlAction}(...$this->urlParams);
-                // If none of the above is passed, show the error to the user
-                
-            }
-            else{
-                $error = new \Services\ErrorController();
-                // Pass to the ErrorController, which will pass to the index view
-                $error->index();				
-            }
-        }
         elseif($this->urlController == 'event'){
                              				                    
             if(!isset($this->urlAction) || $this->urlAction == 'list'){
@@ -108,6 +81,10 @@ class Router
             elseif ($this->urlAction == 'save'){	
                 $ctrl = new \App\Controllers\EventController;
                 $ctrl->eventSave();
+            }
+            elseif ($this->urlAction == 'download-attendee-list-csv'){	
+                $ctrl = new \App\Controllers\EventController;
+                $ctrl->event_download_attendee_list_csv(...$this->urlParams);
             }
             elseif ($this->urlAction == 'edit' || $this->urlAction == 'delete'){	
                 $controller = new \App\Controllers\EventController;

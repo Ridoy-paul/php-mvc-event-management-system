@@ -11,7 +11,7 @@
 </style>
 
 <div class="mt-4">
-    <h3 class="card-title mb-3 fw-bold text-primary">Attendee Registration List</h3>
+    <h4 class="card-title mb-3 fw-bold">Attendee Registration List</h4>
     <table id="event-attendee-list-table" class="table table-striped table-bordered" style="width:100%">
         <thead class="table-dark">
             <tr>

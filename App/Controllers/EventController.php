@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Controllers;
 use App\Controllers\BaseController;
+use App\Models\EventAttendeeModel;
 use App\Models\EventModel;
 use App\Models\UserModel;
 use Exception;
@@ -142,6 +143,51 @@ class EventController extends BaseController {
         return $this->redirect(Urls::eventList());
 
     }
+
+    public function event_download_attendee_list_csv($code) {
+        $this->confirmLoggedIn();
+        
+        $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'role']);
+        if($userInfo->role <> 'admin') {
+            $this->sessionMessage('error', 'Only Admin can access this route.');
+            return $this->redirect(Urls::eventList());
+        }
+    
+        $eventData = EventModel::where('code', $code)->first();
+        if($eventData === null) {
+            $this->sessionMessage('error', 'Invalid Event Access.');
+            return $this->redirect(Urls::eventList());
+        }
+    
+        $eventAttendeeListData = EventAttendeeModel::where('event_code', $code)->get();
+    
+        $filename = "event-attendees-list-{$code}.csv";
+    
+        header('Content-Type: text/csv; charset=UTF-8');
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Pragma: no-cache');
+        header('Expires: 0');
+    
+        $output = fopen('php://output', 'w');
+        fprintf($output, "\xEF\xBB\xBF");
+        fputcsv($output, ['Serial', 'Name', 'Email', 'Phone', 'Registered At']);
+    
+        foreach($eventAttendeeListData as $key => $attendee) {
+            fputcsv($output, [
+                ++$key,
+                $attendee->full_name,
+                $attendee->email,
+                $attendee->phone_number,
+                date("d-m-Y h:s A", strtotime($attendee->registration_date))
+            ]);
+        }
+    
+        fclose($output);
+        exit;
+    }
+    
+
+    
 
     
 

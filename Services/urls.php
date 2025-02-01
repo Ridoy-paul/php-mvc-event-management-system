@@ -66,6 +66,12 @@ class Urls {
     public static function eventDelete($code = '') {
         return BASE_URL . 'event/delete/' . urlencode($code);
     }
+
+    public static function eventDownloadAttendeeCSV($code = '') {
+        return BASE_URL . 'event/download-attendee-list-csv/' . urlencode($code);
+    }
+
+    
     // Event Route End -------------
 
 

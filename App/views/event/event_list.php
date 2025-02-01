@@ -1,10 +1,10 @@
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center shadow rounded border py-3" style="background-color: #ffffff !important;">
             <div class="col-md-12 col-sm-12 mx-auto">
                 <div class="d-flex justify-content-between mb-2">
                     <h4 class="mb-0"></h4>
-                    <a href="<?=Urls::eventCreate()?>" class="btn btn-info">Create Event</a>
+                    <a href="<?=Urls::eventCreate()?>" class="btn btn-info">+ Create New Event</a>
                 </div>
 
                 <table class="table table-bordered">
@@ -39,11 +39,14 @@
                                 <td><?= date('d M Y, h:i A', strtotime($event->event_date_time)) ?></td>
                             <?php endif; ?>
 
-                            <td><?= htmlspecialchars($event->max_capacity) ?></td>
+                            <td><?= $event->max_capacity ?></td>
                             <td><?= $event->is_active ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' ?></td>
                             <td>
                                 <a href="<?=Urls::eventEdit($event->code)?>" class="btn btn-sm btn-primary">Edit</a>
                                 <button type="button" onclick="onDeleteEvent('<?=$event->code?>')" class="btn btn-sm btn-danger">Delete</button>
+                                <?php if ($userInfo->role == 'admin'): ?>
+                                    <a href="<?=Urls::eventDownloadAttendeeCSV($event->code)?>" class="btn btn-sm btn-primary" title="Download Attendee List CSV">Download CSV</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

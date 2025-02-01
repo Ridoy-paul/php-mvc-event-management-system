@@ -6,13 +6,12 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <!-- Search -->
+        
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
                 <h5 class="mb-0"><b><?=$title ?? ''?></b></h5>
             </div>
         </div>
-        <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- User -->
