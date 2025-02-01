@@ -34,7 +34,7 @@
             <?php if((USER_INFO['role'] ?? 'user') == 'admin'):?>
             <li class="menu-item">
                 <a
-                    href="<?=Urls::authDashboard()?>"
+                    href="<?=Urls::authUserList()?>"
                     class="menu-link">
                     <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                     <div class="text-truncate" data-i18n="Dashboard">User Lists</div>

@@ -34,6 +34,11 @@ class Urls {
         return BASE_URL . 'auth/dashboard';
     }
 
+    public static function authUserList() {
+        return BASE_URL . 'auth/user-list';
+    }
+    
+
     public static function authForgotPassword() {
         return BASE_URL . 'auth/forgot-password';
     }

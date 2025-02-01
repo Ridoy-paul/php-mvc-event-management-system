@@ -164,6 +164,53 @@ class AuthController extends BaseController {
         $this->render('dashboard/dashboard', ['title' => $title, 'total_events'=>$total_events, 'total_active_events' => $total_active_events]);
     }
 
+    public function userList() {
+        $this->confirmLoggedIn();
+        $title = "Authenticated User List.";
+
+        $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'role']);
+        if($userInfo->role <> 'admin') {
+            $this->sessionMessage('error', 'Only Admin can access this route.');
+            return $this->redirect(Urls::eventList());
+        }
+
+        $users = UserModel::fromRaw("
+                    (SELECT 
+                        users.id, 
+                        users.first_name, 
+                        users.last_name, 
+                        users.email, 
+                        users.phone, 
+                        users.is_active,
+                        COUNT(events.id) AS total_events
+                    FROM users
+                    LEFT JOIN events ON users.id = events.user_id
+                    WHERE users.role = 'user'
+                    GROUP BY users.id, users.first_name, users.last_name, users.email, users.phone, users.is_active
+                    ) AS users_with_events
+                ")->get();
+
+        /*
+        $users = UserModel::leftJoin('events', 'users.id', '=', 'events.user_id')
+                ->where('users.role', 'user')
+                ->groupBy('users.id', 'users.first_name', 'users.last_name', 'users.email', 'users.phone', 'users.is_active')
+                ->select([
+                    'users.id', 
+                    'users.first_name', 
+                    'users.last_name', 
+                    'users.email', 
+                    'users.phone', 
+                    'users.is_active',
+                    \DB::raw('COUNT(events.id) as total_events')
+                ])
+                ->get();
+        */
+
+        $this->render('users/user_list', ['title' => $title, 'users'=>$users]);
+    }
+
+    
+
     public function logout() {
         $this->confirmLoggedIn();
         session_destroy();
