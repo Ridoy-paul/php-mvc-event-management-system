@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\EventModel;
+use Urls;
 
 class FrontController extends BaseController {
 
@@ -35,6 +36,30 @@ class FrontController extends BaseController {
             'totalPages' => $totalPages,
             'currentPage' => $page
         ]);
+    }
+
+    public function eventDetails($code) {
+        
+        $eventInfo = EventModel::where('events.code', $code)
+                    ->join('users', 'events.user_id', '=', 'users.id')
+                    ->select([
+                        'events.*', 'users.first_name', 'users.last_name', 'users.email'
+                    ])
+                    ->first();
+
+        if($eventInfo === null) {
+            $this->sessionMessage('error', 'No Event Found!');
+            return $this->redirect(Urls::indexPage());
+        }
+
+        $event_title = $eventInfo->event_title ?? null;
+        $title =  "$event_title | Event Management System";
+
+        $this->render('front/event_details', [
+            'title' => $title,
+            'event_info' => $eventInfo,
+        ]);
+
     }
     
     

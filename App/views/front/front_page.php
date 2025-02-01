@@ -38,7 +38,7 @@
                                 <span class="countdown-timer" data-end-time="<?= $event->event_date_time; ?>"></span>
                             </p>
 
-                            <a href="event_details.php?event_id=<?= $event->id; ?>" class="btn btn-primary btn-sm">View Details</a>
+                            <a href="<?=Urls::eventDetails($event->code)?>" class="btn btn-primary btn-sm">View Details</a>
                             <button type="button" class="btn btn-success btn-sm" id="evRegBtn-<?=$event->code;?>" data-bs-toggle="modal" data-bs-target="#eventRegistrationModal" onclick="eventRegistration('<?=$event->code;?>', '<?=$event->event_title;?>')">Book a seat</button>
                         </div>
                     </div>

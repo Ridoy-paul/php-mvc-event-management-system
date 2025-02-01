@@ -36,7 +36,7 @@ class EventModel extends Model
             $userInfo = json_decode($userInfo, true);
             $event_date_time = $request->event_date_time;
 
-            //check date is greater than current date
+            //check event date is greater than current date
             if (strtotime($event_date_time) <= strtotime(date('Y-m-d H:i:s'))) {
                 throw new Exception('Event date should be greater than current date.');
             }

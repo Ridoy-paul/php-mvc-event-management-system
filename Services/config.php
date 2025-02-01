@@ -20,7 +20,6 @@ define('DB_CHARSET', 'utf8mb4');
 
 
 
-
 // Define Auth Info
 if (isset($_SESSION['user'])) {
     define('USER_LOGGED', true);

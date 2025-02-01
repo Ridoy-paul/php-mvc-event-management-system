@@ -59,7 +59,6 @@
                             successToast(response.message);
                             $('#evRegBtn-' + response.event_code).prop('disabled', true).text('Booked');
                             $('#eventRegistrationModal').modal('hide');
-                            //window.location.href = response.redirect;
                         } else {
                             errorToast(response.message);
                             $('#submitEventRegistration').prop('disabled', false).text('Submit Registration');
@@ -68,7 +67,6 @@
                     error: function (xhr) {
                         errorToast("Something went wrong. Please try again.");
                         $('#submitEventRegistration').prop('disabled', false).text('Submit Registration');
-                        //console.error(xhr.responseText);
                     }
                 });
             }

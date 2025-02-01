@@ -27,7 +27,6 @@ class Router
         if (!isset($this->urlController)) {
             $ctrl = new \App\Controllers\FrontController;
             $ctrl->index();
-            
         }
         elseif($this->urlController == 'auth'){                  				                    
 
@@ -115,6 +114,11 @@ class Router
                 $this->urlController = new $controller();				
                 $this->urlController->{$this->urlAction}(...$this->urlParams);
             }
+            elseif ($this->urlAction == 'event-details'){	
+                $controller = new \App\Controllers\FrontController;
+                $this->urlController = new $controller();				
+                $this->urlController->eventDetails(...$this->urlParams);
+            }
             else{
                 $error = new \Services\ErrorController();
                 $error->index();				
@@ -131,6 +135,18 @@ class Router
                 $error->index();				
             }
         }
+        elseif($this->urlController == 'report'){
+
+            if ($this->urlAction == 'attendee-list'){	
+                $ctrl = new \App\Controllers\ReportController;
+                $ctrl->event_attendee_list_datatable();
+            }
+            else{
+                $error = new \Services\ErrorController();
+                $error->index();				
+            }
+        }
+        
         else{
             $error = new \Services\ErrorController();
             $error->index();				

@@ -89,6 +89,9 @@
     th {
         color: #ffffff !important;
     }
+    .page-link {
+        border-radius: 5px !important;
+    }
 </style>
 
 <script src="<?=URL?>public/assets/js/sweetalert.min.js"></script>

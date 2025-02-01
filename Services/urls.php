@@ -8,6 +8,10 @@ class Urls {
     public static function indexPage() {
         return BASE_URL;
     }
+
+    public static function eventDetails($code) {
+        return BASE_URL . 'event/event-details/' . urlencode($code);
+    }
     
     // Auth Routes start -------
     public static function authLogin() {
@@ -68,6 +72,12 @@ class Urls {
     // Event Registration Route Start -------------
     public static function eventRegistrationStore() {
         return BASE_URL . 'event-registration/store';
+    }
+
+
+    // Report Route Start -------------
+    public static function attendeeListReport() {
+        return BASE_URL . 'report/attendee-list';
     }
 
     
