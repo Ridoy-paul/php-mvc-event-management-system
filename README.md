@@ -2,7 +2,9 @@
 
 <b>Project Overview:</b>
 
-In this event management project, I used PHP OOP with MVC (Model-View-Controller) design pattern. Here I used dynamic routing system, and Eloquent database mechanism for connect database table with model, and also for better Query. With all of these I also used a simple Bootstrap 5 template.
+You can check the project into live server: https://event.hotelsbookingbd.com
+
+Welcome to my project. In this event management project, I used PHP OOP with MVC (Model-View-Controller) design pattern. Here I used dynamic routing system, and Eloquent database mechanism for connect database table with model, and also for better Query. With all of these I also used a simple Bootstrap 5 template.
 
 
 <b>Project Features:</b>
@@ -17,7 +19,7 @@ In this event management project, I used PHP OOP with MVC (Model-View-Controller
 
 ## Database ER Diagram
 <p align="center">
-  <img src="ER-diagram-for-Event-Management-system.png" height="300px">
+  <img src="ER-diagram-for-Event-Management-system.png" width="90%">
 </p>
 
 ## Project Setup
