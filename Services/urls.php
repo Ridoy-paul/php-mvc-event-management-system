@@ -75,8 +75,6 @@ class Urls {
     public static function eventDownloadAttendeeCSV($code = '') {
         return BASE_URL . 'event/download-attendee-list-csv/' . urlencode($code);
     }
-
-    
     // Event Route End -------------
 
 
@@ -91,21 +89,6 @@ class Urls {
         return BASE_URL . 'report/attendee-list';
     }
 
-    
-
-    
-
-    
-
-    
-    
-
-    
-    public static function getSingleDynamicPage($slug) {
-        return BASE_URL . 'get-dynamic-pages/' . urlencode($slug);
-    }
-
-    
 
 }
 

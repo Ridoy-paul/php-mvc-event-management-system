@@ -15,9 +15,8 @@ define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'php_test_mvc_route');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_PORT', '3306');// 3306 or 5432
+define('DB_PORT', '3306');
 define('DB_CHARSET', 'utf8mb4');
-
 
 
 // Define Auth Info

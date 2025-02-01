@@ -118,7 +118,7 @@ class Router
         }
         elseif($this->urlController == 'report'){
 
-            if ($this->urlAction == 'attendee-list'){	
+            if($this->urlAction == 'attendee-list'){	
                 $ctrl = new \App\Controllers\ReportController;
                 $ctrl->event_attendee_list_datatable();
             }
@@ -127,7 +127,6 @@ class Router
                 $error->index();				
             }
         }
-        
         else{
             $error = new \Services\ErrorController();
             $error->index();				

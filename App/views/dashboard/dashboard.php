@@ -6,7 +6,7 @@
                     <div class="authentication-inner">
                         <div class="card px-sm-6 px-0">
                             <div class="card-body p-2">
-                                <h3><b>Total Events</b></h3>
+                                <h4><b>Total Events</b></h4>
                                 <h1><b><?=$total_events?></b></h1>
                             </div>
                         </div>
@@ -18,7 +18,7 @@
                     <div class="authentication-inner">
                         <div class="card px-sm-6 px-0">
                             <div class="card-body p-2">
-                                <h3><b>Total Active Events</b></h3>
+                                <h4><b>Total Active Events</b></h4>
                                 <h1><b><?=$total_active_events?></b></h1>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                     <div class="authentication-inner">
                         <div class="card px-sm-6 px-0">
                             <div class="card-body p-2">
-                                <h3><b>Total InActive Events</b></h3>
+                                <h4><b>Total InActive Events</b></h4>
                                 <h1><b><?=$total_events - $total_active_events?></b></h1>
                             </div>
                         </div>

@@ -1,5 +1,4 @@
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 
 <style>
     .ck-editor__editable {
@@ -29,8 +28,10 @@
 
                                 <div class="mb-6">
                                     <label for="email" class="form-label">Event Descriptions<span class="text-danger">*</span></label>
-                                    <div id="editor"><?=$data['event_description'] ?? '';?></div>
-                                    <input type="hidden" name="event_description" value="<?=$data['event_description'] ?? '';?>" id="event_description">
+                                    
+                                    <textarea id="editor" name="" id=""><?=$data['event_description'] ?? '';?></textarea>
+                                    
+                                    <input type="hidden" name="event_description" value="" id="event_description">
                                 </div>
 
                                 <div class="mb-6">
@@ -83,19 +84,21 @@
     </div>
 </div>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-
 <script>
+    
     $(document).ready(function () {
+
+        CKEDITOR.replace('editor');
 
         $("#submitForm").click(function (e) {
             e.preventDefault();
 
-            $("#event_description").val($(".ck-editor__editable").html());
+            var textAreaContent = CKEDITOR.instances.editor.getData();
+            $("#event_description").val(textAreaContent);
 
             var hasError = validateForm("eventForm");
             
-            if (!hasError) {
+            if(!hasError) {
                 $.ajax({
                     url: "<?=Urls::eventSave() ?>",
                     type: "POST",
@@ -127,11 +130,6 @@
         });
     });
 
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error( error );
-        });
 </script>
 
 

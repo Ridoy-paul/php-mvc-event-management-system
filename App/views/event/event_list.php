@@ -42,10 +42,11 @@
                             <td><?= $event->max_capacity ?></td>
                             <td><?= $event->is_active ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>' ?></td>
                             <td>
-                                <a href="<?=Urls::eventEdit($event->code)?>" class="btn btn-sm btn-primary">Edit</a>
-                                <button type="button" onclick="onDeleteEvent('<?=$event->code?>')" class="btn btn-sm btn-danger">Delete</button>
+                                <a href="<?=Urls::eventEdit($event->code)?>" class="btn btn-sm btn-primary mb-1">Edit</a>
+                                <a target="_blank" href="<?=Urls::eventDetails($event->code)?>" class="btn btn-sm btn-success mb-1">View</a>
+                                <button type="button" onclick="onDeleteEvent('<?=$event->code?>')" class="btn btn-sm btn-danger mb-1">X</button>
                                 <?php if ($userInfo->role == 'admin'): ?>
-                                    <a href="<?=Urls::eventDownloadAttendeeCSV($event->code)?>" class="btn btn-sm btn-primary" title="Download Attendee List CSV">Download CSV</a>
+                                    <a href="<?=Urls::eventDownloadAttendeeCSV($event->code)?>" class="btn btn-sm btn-primary mb-1" title="Download Attendee List CSV">Download CSV</a>
                                 <?php endif; ?>
                             </td>
                         </tr>

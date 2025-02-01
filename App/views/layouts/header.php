@@ -16,6 +16,9 @@
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- User -->
             <?php if(USER_LOGGED): ?>
+                <li class="nav-item d-none d-lg-block">
+                    <a class="nav-link px-2 text-uppercase" href="#"><?=USER_INFO['role'] ?? 'User'?></a>
+                </li>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                     <a
                     class="nav-link dropdown-toggle hide-arrow p-0"
