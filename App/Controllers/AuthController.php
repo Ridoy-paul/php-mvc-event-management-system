@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\EventModel;
 use App\Models\UserModel;
 use Exception;
 use Urls;
@@ -147,7 +148,20 @@ class AuthController extends BaseController {
     public function dashboard() {
         $this->confirmLoggedIn();
         $title = "Dashboard";
-        $this->render('dashboard/dashboard', ['title' => $title]);
+
+        $total_events = EventModel::where('is_delete', 0);
+        $total_active_events = $total_events->where('is_active', 1)->where('is_delete', 0);
+
+        $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'role']);
+        if ($userInfo->role == 'user') {
+            $total_events = $total_events->where('user_id', $userInfo->id);
+            $total_active_events = $total_active_events->where('user_id', $userInfo->id);
+        }
+
+        $total_events = $total_events->count('id');
+        $total_active_events = $total_active_events->count('id');
+        
+        $this->render('dashboard/dashboard', ['title' => $title, 'total_events'=>$total_events, 'total_active_events' => $total_active_events]);
     }
 
     public function logout() {

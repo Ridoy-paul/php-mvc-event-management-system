@@ -52,8 +52,7 @@ class FrontController extends BaseController {
             return $this->redirect(Urls::indexPage());
         }
 
-        $event_title = $eventInfo->event_title ?? null;
-        $title =  "$event_title | Event Management System";
+        $title =  $eventInfo->event_title ?? null;
 
         $this->render('front/event_details', [
             'title' => $title,

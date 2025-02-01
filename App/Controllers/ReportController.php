@@ -3,40 +3,88 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 use App\Controllers\BaseController;
+use App\Models\EventAttendeeModel;
 use App\Models\EventModel;
+use App\Models\UserModel;
 use Urls;
 
 class ReportController extends BaseController {
 
     public function event_attendee_list_datatable() {
-        $title = "Home | Event Management System";
+        $this->confirmLoggedIn();
     
-        // $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-        // $perPage = 6;
-        // $offset = ($page - 1) * $perPage;
+        $draw = $_GET['draw'] ?? 1;
+        $start = $_GET['start'] ?? 0;
+        $length = $_GET['length'] ?? 10;
+        $searchValue = $_GET['search']['value'] ?? '';
     
-        // $eventQuery = EventModel::where('events.is_delete', 0)
-        //     ->where('events.is_active', 1)
-        //     ->join('users', 'events.user_id', '=', 'users.id')
-        //     ->select([
-        //         'events.id', 'events.code', 'events.event_title', 'events.event_description', 'events.event_date_time',
-        //         'events.max_capacity', 'events.is_active', 'events.is_delete', 'events.guest_registration_status',
-        //         'users.first_name', 'users.last_name', 'users.email'
-        //     ])
-        //     ->orderBy('events.id', 'DESC');
+        $orderColumnIndex = $_GET['order'][0]['column'] ?? 0;
+        $orderDir = $_GET['order'][0]['dir'] ?? 'asc';
     
-        // $totalEvents = (clone $eventQuery)->count();
-        // $totalPages = ceil($totalEvents / $perPage);
+        $columns = [
+            'event_attendees.registration_date',
+            'events.code',
+            'events.event_title',
+            'event_attendees.full_name',
+            'event_attendees.email',
+            'event_attendees.phone_number'
+        ];
     
-        // $eventList = $eventQuery->skip($offset)->take($perPage)->get();
+        $orderByColumn = $columns[$orderColumnIndex] ?? 'event_attendees.id';
     
-        // $this->render('front/front_page', [
-        //     'title' => $title,
-        //     'events' => $eventList,
-        //     'totalPages' => $totalPages,
-        //     'currentPage' => $page
-        // ]);
+        $query = EventAttendeeModel::join('events', 'events.code', '=', 'event_attendees.event_code')
+            ->select([
+                'event_attendees.id',
+                'event_attendees.registration_date',
+                'event_attendees.full_name',
+                'event_attendees.email',
+                'event_attendees.phone_number',
+                'events.code as event_code',
+                'events.event_title',
+            ]);
+    
+        // Check User is admin or user. if admin then can see all to list, if user then can see only his / her events attendee lists.
+        $userInfo = UserModel::where('id', USER_INFO['id'] ?? null)->first(['id', 'role']);
+        if ($userInfo->role == 'user') {
+            $query = $query->where('events.user_id', $userInfo->id);
+        }
+    
+        if (!empty($searchValue)) {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('event_attendees.full_name', 'LIKE', "%$searchValue%")
+                  ->orWhere('event_attendees.registration_date', 'LIKE', "%$searchValue%")
+                  ->orWhere('event_attendees.email', 'LIKE', "%$searchValue%")
+                  ->orWhere('event_attendees.phone_number', 'LIKE', "%$searchValue%")
+                  ->orWhere('events.event_title', 'LIKE', "%$searchValue%")
+                  ->orWhere('events.code', 'LIKE', "%$searchValue%");
+            });
+        }
+    
+        $totalRecordsQuery = EventAttendeeModel::join('events', 'events.code', '=', 'event_attendees.event_code');
+        if ($userInfo->role == 'user') {
+            $totalRecordsQuery->where('events.user_id', $userInfo->id);
+        }
+        $totalRecords = $totalRecordsQuery->count();
+    
+        $filteredRecords = $query->count();
+    
+        $data = $query->orderBy($orderByColumn, $orderDir)
+            ->skip($start)
+            ->take($length)
+            ->get();
+    
+        // Response JSON
+        $response = [
+            "draw" => intval($draw),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $filteredRecords,
+            "data" => $data
+        ];
+    
+        echo json_encode($response);
     }
+    
+    
 
 
 }

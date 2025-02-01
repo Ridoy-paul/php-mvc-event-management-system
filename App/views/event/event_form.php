@@ -17,11 +17,6 @@
                     <div class="authentication-inner">
                         <div class="card px-sm-6 px-0">
                             <div class="card-body">
-                                <div class="app-brand justify-content-left">
-                                    <a href="#" class="app-brand-link gap-2 mb-3">
-                                        <span class="app-brand-text demo text-heading fw-bold"><?=$title?></span>
-                                    </a>
-                                </div>
 
                                 <div class="row">
                                     <div class="col-md-12 mt-3">

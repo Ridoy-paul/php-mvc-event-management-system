@@ -26,7 +26,7 @@
                 <a
                     href="<?=Urls::authDashboard()?>"
                     class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-smile"></i>
+                    <i class="menu-icon tf-icons bx bx-detail"></i>
                     <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
                 </a>
             </li>
@@ -36,7 +36,7 @@
                 <a
                     href="<?=Urls::authDashboard()?>"
                     class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-smile"></i>
+                    <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                     <div class="text-truncate" data-i18n="Dashboard">User Lists</div>
                 </a>
             </li>
@@ -52,7 +52,7 @@
                 <ul class="menu-sub">
                     <li class="menu-item">
                         <a href="<?=Urls::eventCreate()?>" class="menu-link">
-                        <div class="text-truncate" data-i18n="Create Event">Create Event</div>
+                        <div class="text-truncate" data-i18n="Create Event">Create New Event</div>
                         </a>
                     </li>
                     <li class="menu-item">

@@ -20,6 +20,7 @@
             <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
             <input type="email" class="form-control" id="ev_reg_email" name="email" placeholder="Enter your email" data-field-name="Email" value="<?=USER_INFO['email'] ?? ''?>" required>
         </div>
+
         <div class="mb-6">
             <label for="phone" class="form-label">Phone<span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="ev_reg_phone" name="phone" placeholder="Enter your phone number" data-field-name="phone" value="<?=USER_INFO['phone'] ?? ''?>" required>

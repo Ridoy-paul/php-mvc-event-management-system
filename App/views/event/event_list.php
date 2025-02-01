@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12 col-sm-12 mx-auto">
                 <div class="d-flex justify-content-between mb-2">
-                    <h4 class="mb-0">Event List</h4>
+                    <h4 class="mb-0"></h4>
                     <a href="<?=Urls::eventCreate()?>" class="btn btn-info">Create Event</a>
                 </div>
 

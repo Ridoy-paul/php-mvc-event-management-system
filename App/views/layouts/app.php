@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="<?=URL?>public/assets/vendor/libs/apex-charts/apex-charts.css" />
     <link rel="stylesheet" href="<?=URL?>public/assets/css/toastify.min.css" />
     
+    
     <script src="<?=URL?>public/assets/vendor/js/helpers.js"></script>
     <script src="<?=URL?>public/assets/js/config.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

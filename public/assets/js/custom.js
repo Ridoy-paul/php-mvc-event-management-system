@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function() {
 function eventRegistration(code, title) {
     $('#regEventCode').val(code);
     $('#regEventTitle').text(title);
-    $('#ev_reg_full_name').val('');
-    $('#ev_reg_email').val('');
-    $('#ev_reg_phone').val('');
+    // $('#ev_reg_full_name').val('');
+    // $('#ev_reg_email').val('');
+    // $('#ev_reg_phone').val('');
     $('#submitEventRegistration').prop('disabled', false).text('Submit Registration');
 }
