@@ -7,7 +7,6 @@ class Router
     private $urlAction = null;
     private $urlParams = array();
     
-    // See that all the code is inside constructor, which means that when you create an instance of this class all your code is already in action
     public function __construct(){
         
         // Verify if url isset

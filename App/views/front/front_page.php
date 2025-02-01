@@ -39,7 +39,7 @@
                             </p>
 
                             <a href="event_details.php?event_id=<?= $event->id; ?>" class="btn btn-primary btn-sm">View Details</a>
-                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#eventRegistrationModal" onclick="eventRegistration('<?=$event->code;?>', '<?=$event->event_title;?>')">Book a seat</button>
+                            <button type="button" class="btn btn-success btn-sm" id="evRegBtn-<?=$event->code;?>" data-bs-toggle="modal" data-bs-target="#eventRegistrationModal" onclick="eventRegistration('<?=$event->code;?>', '<?=$event->event_title;?>')">Book a seat</button>
                         </div>
                     </div>
                 </div>
